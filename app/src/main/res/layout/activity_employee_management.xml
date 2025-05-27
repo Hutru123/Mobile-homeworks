@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmployeeManagementActivity">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Row 1 -->
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+                <!-- Healthcare -->
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+                    <ImageView android:onClick="open_employee_healthcare_activity"
+                        android:id="@+id/imgHealthcare" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_employee_healthcare" />
+                    <TextView android:onClick="open_employee_healthcare_activity"
+                        android:id="@+id/txtHealthcare" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:text="@string/title_healthcare"
+                        android:textSize="24sp" android:gravity="center" />
+                </LinearLayout>
+
+                <!-- Salary -->
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+                    <ImageView android:id="@+id/imgSalary" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_employee_salary" />
+                    <TextView android:id="@+id/txtSalary" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:text="@string/title_salary"
+                        android:textSize="24sp" android:gravity="center" />
+                </LinearLayout>
+            </TableRow>
+
+            <!-- Row 2 -->
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+                <!-- Attendance -->
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+                    <ImageView android:id="@+id/imgAttendance" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_employee_attendance" />
+
+                    <TextView
+                        android:id="@+id/txtAttendance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/title_employee_attendance"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <!-- Performance -->
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+                    <ImageView android:id="@+id/imgPerformance" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_employee_performance" />
+
+                    <TextView
+                        android:id="@+id/txtPerformance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/title_employee_performance"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <!-- Row 3 -->
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+                <!-- Training -->
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+                    <ImageView android:id="@+id/imgTraining" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_employee_training" />
+
+                    <TextView
+                        android:id="@+id/txtTraining"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/title_employee_training"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <!-- Leave Request -->
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+                    <ImageView android:id="@+id/imgLeave" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_employee_request" />
+
+                    <TextView
+                        android:id="@+id/txtLeave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/title_employee_request"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <!-- Row 4 -->
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content">
+                <!-- Contracts -->
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+                    <ImageView android:id="@+id/imgContracts" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_employee_contracts" />
+
+                    <TextView
+                        android:id="@+id/txtContracts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/title_employee_contracts"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <!-- Feedback -->
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
+                    <ImageView android:id="@+id/imgFeedback" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_employee_feedback" />
+
+                    <TextView
+                        android:id="@+id/txtFeedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/title_employee_feedback"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+</ScrollView>
