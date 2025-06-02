@@ -2,6 +2,7 @@ package com.example.k22411csampleproject;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,22 +21,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
+import com.example.connectors.EmployeeConnector;
+import com.example.models.Employee;
+
 public class LoginActivity extends AppCompatActivity {
 
-    EditText edtUserName, edtPassword;
-    CheckBox chkSaveLoginInfor;
-    Button btnLogin;
-    ImageView imgExit;
-    private boolean doubleBackToExitPressedOnce = false;
-    private static final long DOUBLE_BACK_PRESS_THRESHOLD = 1200;
+    EditText edtUserName;
+    EditText edtPassword;
+    CheckBox chkSaveLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
-        addView();
+        addViews();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -43,71 +45,100 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void addView() {
+    private void addViews() {
         edtUserName=findViewById(R.id.edtUserName);
         edtPassword=findViewById(R.id.edtPassword);
-        chkSaveLoginInfor=findViewById(R.id.chkSaveLoginInfor);
-        btnLogin=findViewById(R.id.btnLogin);
-        imgExit=findViewById(R.id.imgExit);
+        chkSaveLogin=findViewById(R.id.chkSaveLoginInfor);
     }
 
-
     public void do_login(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
 
+        String usr=edtUserName.getText().toString();
+        String pwd=edtPassword.getText().toString();
+        EmployeeConnector ec=new EmployeeConnector();
+
+        Employee emp=ec.login(usr,pwd);
+        if(emp!=null)
+        {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this,
+                    "Login failed - please check your account again!",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     public void do_exit(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        Resources res = getResources();
-
-        //tiêu đề
+        AlertDialog.Builder builder=new AlertDialog.Builder(LoginActivity.this);
+        Resources res=getResources();
+        //tiêu đề:
         builder.setTitle(res.getText(R.string.confirm_exit_title));
         //nội dung cửa sổ:
         builder.setMessage(res.getText(R.string.confirm_exit_message));
+        //biểu tượng:
         builder.setIcon(android.R.drawable.ic_dialog_alert);
 
-        //Thiết lập tương tác YES:
+        //thiết lập tương tác YES:
         builder.setPositiveButton(res.getText(R.string.confirm_exit_yes), new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //System.ext(0);
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //System.exit(0);
                 finish();
             }
         });
         builder.setNegativeButton(res.getText(R.string.confirm_exit_no), new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
             }
         });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(false);
-        alertDialog.show();
+        AlertDialog dialog=builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+    public void saveLoginInformation()
+    {
+        SharedPreferences preferences = getSharedPreferences("LOGIN_INFORMATION", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        String usr = edtUserName.getText().toString();
+        String pwd = edtPassword.getText().toString();
+        boolean isSave = chkSaveLogin.isChecked();
+        editor.putString("USERNAME", usr);
+        editor.putString("PASSWORD", pwd);
+        editor.putBoolean("SAVED", isSave);
+        editor.commit();
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (doubleBackToExitPressedOnce) {
-                finish();
-                return true;
-            }
-
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, DOUBLE_BACK_PRESS_THRESHOLD);
-
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    protected void onPause()
+    {
+        super.onPause();
+        saveLoginInformation();
     }
+
+    ///  khi doc ra, khogn can doi tuong editor
+    public void restoreLoginInformation()
+    {
+        SharedPreferences preferences = getSharedPreferences("LOGIN_INFORMATION", MODE_PRIVATE);
+        String usr = preferences.getString("USERNAME", "");
+        String pwd = preferences.getString("PASSWORD", "");
+        boolean isSave = preferences.getBoolean("", true);
+
+        if (isSave)
+        {
+            edtUserName.setText(usr);
+            edtPassword.setText(pwd);
+            chkSaveLogin.setChecked(isSave);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        restoreLoginInformation();
+    }
+
 }
